@@ -11,7 +11,7 @@ import mariadb
 mydb = mariadb.connect(
   host="localhost",
   user="root",
-  password="",
+  password="test123",
   database="tcc"
 ) # Conexão com o banco de dados
 
@@ -34,14 +34,14 @@ def categoria_e_justificativa(resumo):
 
     mycursor = mydb.cursor()
 
-    mycursor.execute("SELECT OBJ_CATEGORIA FROM objetivo WHERE OBJ_ID="+str(resumo))
+    mycursor.execute("SELECT OBJ_CATEGORIA FROM OBJETIVO WHERE OBJ_ID="+str(resumo))
 
     myresult = mycursor.fetchone()
     CATEGORIA = ''.join(str(myresult)).replace("('","").replace("',)","")
 
     mycursor = mydb.cursor()
 
-    mycursor.execute("SELECT OBJ_JUSTIFICATIVA FROM objetivo WHERE OBJ_ID="+str(resumo))
+    mycursor.execute("SELECT OBJ_JUSTIFICATIVA FROM OBJETIVO WHERE OBJ_ID="+str(resumo))
 
     myresult = mycursor.fetchone()
     JUSTIFICATIVA = ''.join(str(myresult)).replace("('","").replace("',)","")
@@ -57,7 +57,7 @@ def frase_objetivo(vertice):
     """
 
     mycursor = mydb.cursor()
-    mycursor.execute("SELECT OBJ_CONSTRUCOES_LINGUISTICAS FROM objetivo WHERE OBJ_ID="+str(vertice))
+    mycursor.execute("SELECT OBJ_CONSTRUCOES_LINGUISTICAS FROM OBJETIVO WHERE OBJ_ID="+str(vertice))
     myresult = mycursor.fetchone()
     FRASE = ''.join(str(myresult)).replace("('","").replace("',)","")
     return FRASE
@@ -75,7 +75,7 @@ def resumo_com_marcacoes(resumo):
 
     mycursor = mydb.cursor()
 
-    mycursor.execute("SELECT RES_RESUMO FROM resumos WHERE RES_ID="+str(resumo))
+    mycursor.execute("SELECT RES_RESUMO FROM RESUMOS WHERE RES_ID="+str(resumo))
 
     myresult = mycursor.fetchone()
 
@@ -100,7 +100,7 @@ def frase_usuario_objetivo(resumo):
 
     mycursor = mydb.cursor()
 
-    mycursor.execute("SELECT RES_TITULO FROM resumos WHERE RES_ID="+str(resumo))
+    mycursor.execute("SELECT RES_TITULO FROM RESUMOS WHERE RES_ID="+str(resumo))
 
     myresult = mycursor.fetchone()
 
@@ -110,7 +110,7 @@ def frase_usuario_objetivo(resumo):
 
     mycursor = mydb.cursor()
 
-    mycursor.execute("SELECT RES_RESUMO FROM resumos WHERE RES_ID="+str(resumo))
+    mycursor.execute("SELECT RES_RESUMO FROM RESUMOS WHERE RES_ID="+str(resumo))
 
     myresult = mycursor.fetchone()
 
@@ -223,11 +223,11 @@ print("\n")
 
 
 if bool(FRASE_ANOTADA and FRASE_ANOTADA.strip()) == False:
-    print(f'A frase do usuário combina com a anotada? {False}')
+    print('A frase do usuário combina com a anotada? Não')
 elif FRASE_ANOTADA in grafo.adj_matrix[0][1]:
-    print(f'A frase do usuário combina com a anotada? {FRASE_ANOTADA in grafo.adj_matrix[0][1]}')
+    print(f'A frase do usuário combina com a anotada? {'Sim' if FRASE_ANOTADA in grafo.adj_matrix[0][1] else 'Não'}')
 else:
-    print(f'A frase do usuário combina com a anotada? {FRASE_ANOTADA in FRASE_USUARIO}')
+    print(f'A frase do usuário combina com a anotada? {'Sim' if FRASE_ANOTADA in FRASE_USUARIO else 'Não'}')
 
 RESUMO_MARCADO = resumo_com_marcacoes(RESUMO_ESCOLHIDO)
 
